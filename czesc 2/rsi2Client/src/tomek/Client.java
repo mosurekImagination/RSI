@@ -49,6 +49,7 @@ public class Client {
                         "0. Wyjście z programu\n" +
                         "1. Liczenie liczb pierwszych w zakresie (param = zakres) \n" +
                         "2. obliczenie liczby PI metodą monte Carlo (param = liczbaRzutow)\n" +
+                        "3. Liczenie silni\n" +
                         "Wybierz opcje:");
                 Scanner sc = new Scanner(System.in);
                 option = sc.nextInt();
@@ -58,6 +59,7 @@ public class Client {
                 switch (option){
                     case 1: System.out.println(vFarmers.get(0).compute(new tomek.TaskPrimes(), values)); break;
                     case 2: System.out.println(vFarmers.get(0).compute(new tomek.PiTask(), values)); break;
+                    case 3: System.out.println(vFarmers.get(0).compute(new tomek.FactorialTask(), values)); break;
                 }
             }
         } catch (Exception e) {
