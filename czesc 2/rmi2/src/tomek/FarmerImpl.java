@@ -54,7 +54,7 @@ public class FarmerImpl
         if (t instanceof tomek.TaskPrimes) {
             results = getResultFromPrimeTask(t, (int[]) params, threads);
         }
-        if (t instanceof CombinePiTask || t instanceof PiTask) {
+        if (t instanceof PiTask) {
             results = getResultFromPrimeTask(t, (int[]) params, threads);
 
             synchronized (results) {
