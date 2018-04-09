@@ -13,10 +13,16 @@ public class CombinePiTask implements Task {
      */
     @Override
     public Object compute(Object args) {
-        int hits = ((Vector<Integer>) args).get(0); //Tu trzebaby przekazać zsumowany result
-        int numberOfThrows = ((Vector<Integer>) args).get(1);
+        Vector<Integer> hitV= ((Vector<Integer>) args);
+        int hits = 0;
+        for(int i=0; i<hitV.size()-1; i++) {
+            hits += hitV.get(i);
+        }
+        int numberOfThrows = hitV.get(hitV.size()-1);
         float pi = getPi(hits,numberOfThrows);
-        return pi;
+        Vector<Float> piV = new Vector<>();
+        piV.add(pi);
+        return piV;
     }
 
     /**

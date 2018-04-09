@@ -2,6 +2,8 @@
  * AUTOR: MARTYNA KUMASZKA I TOMASZ MOSUR
  */
 package tomek;
+import RMIServer.src.CombinePiTask;
+
 import java.util.*;
 
 import static java.lang.Math.round;
@@ -49,8 +51,24 @@ public class FarmerImpl
         tomek.WorkerThread[] threads = new tomek.WorkerThread[workers.length];
         Vector results = new Vector();
 
-        if (t instanceof tomek.TaskPrimes || t instanceof PiTask) {
+        if (t instanceof tomek.TaskPrimes) {
             results = getResultFromPrimeTask(t, (int[]) params, threads);
+        }
+        if (t instanceof CombinePiTask || t instanceof PiTask) {
+            results = getResultFromPrimeTask(t, (int[]) params, threads);
+
+            synchronized (results) {
+                while (results.size() < workers.length) {
+                    try {
+                        results.wait();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                results.add(((int[])params)[1]);
+                results = (Vector)workers[0].compute(new CombinePiTask(), results);
+                return results;
+            }
         }
 
         synchronized (results) {
@@ -62,7 +80,6 @@ public class FarmerImpl
                 }
             }
         }
-
         return results;
     }
 
