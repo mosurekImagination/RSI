@@ -49,7 +49,7 @@ public class FarmerImpl
      */
     public Object compute(tomek.Task t, Object params) throws java.rmi.RemoteException {
         tomek.WorkerThread[] threads = new tomek.WorkerThread[workers.length];
-        Vector results = new Vector();
+        Vector<Object> results = new Vector<>();
 
         if (t instanceof tomek.TaskPrimes) {
             results = getResultFromPrimeTask(t, (int[]) params, threads);
@@ -66,9 +66,12 @@ public class FarmerImpl
                     }
                 }
                 results.add(((int[])params)[1]);
-                results = (Vector)workers[0].compute(new CombinePiTask(), results);
+                results = (Vector<Object>)workers[0].compute(new CombinePiTask(), results);
                 return results;
             }
+        }
+        if (t instanceof FactorialTask) {
+            results.add(workers[0].compute(new tomek.FactorialTask(), ((int[]) params)[0]));
         }
 
         synchronized (results) {
@@ -83,8 +86,8 @@ public class FarmerImpl
         return results;
     }
 
-    private Vector getResultFromPrimeTask(tomek.Task t, int[] params, tomek.WorkerThread[] threads) {
-        Vector results = new Vector();
+    private Vector<Object> getResultFromPrimeTask(tomek.Task t, int[] params, tomek.WorkerThread[] threads) {
+        Vector<Object> results = new Vector<>();
         int last = params[1];
         int first = params[0];
         int point = last / workers.length;
@@ -103,26 +106,6 @@ public class FarmerImpl
         }
         return results;
     }
-
-    private Vector getResultFromSortTask(tomek.Task t, int[] params, tomek.WorkerThread[] threads) {
-        Vector results = new Vector();
-        int point = params.length / workers.length;
-        for (int i = 0; i < workers.length; i++) {
-            Vector<Integer> vInput = new Vector<>();
-            if (i == 0)
-                vInput.add(0);
-            else
-                vInput.add(i * point);
-            vInput.add((i + 1) * point);
-
-            threads[i] = new tomek.WorkerThread(
-                    workers[i], t, vInput, results
-            );
-            threads[i].start();
-        }
-        return results;
-    }
-
 
     /**
      * Klasa głowna, uruchamiająca farmera i rejestrująca go w registry.

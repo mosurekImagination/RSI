@@ -10,8 +10,8 @@ import java.util.Vector;
 public class PiTask implements tomek.Task {
     /**
      * Funkcja uruchamiająca dzialanie klasy
-     * @param args Vector z danymi - wartości od, do wyliczania liczb pierwszzych (int)
-     * @return Vector z liczbami pierwszymi
+     * @param args Vector z danymi - wartości od, do wyliczania ilości uderzeń
+     * @return ilość uderzeń
      */
     @Override
     public Object compute(Object args) {
@@ -38,19 +38,5 @@ public class PiTask implements tomek.Task {
             }
         }
         return hits;
-    }
-
-    /**
-     * Funkcja sprawdzajaca czy dana liczba jest liczbą pierwszą
-     * @param n liczba do sprawdzenia
-     * @return czy jest l. pierwszą
-     */
-    public boolean isPrime(long n) {
-        if(n > 2 && (n & 1) == 0)
-            return false;
-        for(int i = 3; i * i <= n; i += 2)
-            if (n % i == 0)
-                return false;
-        return true;
     }
 }
