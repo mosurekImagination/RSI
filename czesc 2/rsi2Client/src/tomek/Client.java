@@ -2,6 +2,7 @@
  * AUTOR: MARTYNA KUMASZKA I TOMASZ MOSUR
  */
 package tomek;
+import java.util.Scanner;
 import java.util.Vector;
 
 /**
@@ -38,8 +39,27 @@ public class Client {
 
         try {
 //            int[] values = {1,2000000};
-            int[] values = {1,100};
-            System.out.println(vFarmers.get(0).compute(new tomek.TaskPrimes(), values));
+            int option=-1;
+            int[] values = {1, 1000000};
+            int param;
+
+            while(option != 0)
+            {
+                System.out.println("Witaj, przyjacielu! \n" +
+                        "0. Wyjście z programu\n" +
+                        "1. Liczenie liczb pierwszych w zakresie (param = zakres) \n" +
+                        "2. obliczenie liczby PI metodą monte Carlo (param = liczbaRzutow)\n" +
+                        "Wybierz opcje:");
+                Scanner sc = new Scanner(System.in);
+                option = sc.nextInt();
+
+//                System.out.println("Podaj parametr:")
+//                param = sc.nextInt();
+                switch (option){
+                    case 1: System.out.println(vFarmers.get(0).compute(new tomek.TaskPrimes(), values)); break;
+                    case 2: System.out.println(vFarmers.get(0).compute(new tomek.PiTask(), values)); break;
+                }
+            }
         } catch (Exception e) {
             System.out.println("Blad zdalnego wywolania.");
             e.printStackTrace();
