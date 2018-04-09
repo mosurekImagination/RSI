@@ -1,7 +1,6 @@
 /**
- * AUTOR: PIOTR CHOLEWA
+ * AUTOR: MARTYNA KUMASZKA I TOMASZ MOSUR
  */
-
 /**
  * Interfejs Workera
  */
