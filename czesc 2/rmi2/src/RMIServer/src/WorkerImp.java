@@ -42,7 +42,9 @@ public class WorkerImp extends java.rmi.server.UnicastRemoteObject implements to
             System.out.println("You have to enter RMI object address in the form: //host_address/service_name");
             return;
         }
-        System.setProperty("java.security.policy","file:/C:/Users/Tomek/IdeaProjects/rmi2/src/RMIServer/src/srv.policy");
+        String accFile = System.getProperty("user.dir");
+        String filepath = "file:/"+accFile+"/srv.policy";
+        System.setProperty("java.security.policy", filepath);
 
         try {
             Registry reg = LocateRegistry.createRegistry(1099);
