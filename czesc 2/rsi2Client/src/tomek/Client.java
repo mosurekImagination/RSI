@@ -40,16 +40,16 @@ public class Client {
         try {
 //            int[] values = {1,2000000};
             int option=-1;
-            int[] values = {1, 1000000};
+            int[] values = {10, 2000000};
             int param;
 
             while(option != 0)
             {
                 System.out.println("Witaj, przyjacielu! \n" +
                         "0. Wyjście z programu\n" +
-                        "1. Liczenie liczb pierwszych w zakresie (param = zakres) \n" +
-                        "2. obliczenie liczby PI metodą monte Carlo (param = liczbaRzutow)\n" +
-                        "3. Liczenie silni\n" +
+                        "1. Liczenie liczb pierwszych w zakresie 100000 \n" +
+                        "2. obliczenie liczby PI metodą monte Carlo \n" +
+                        "3. Liczenie 10! \n" +
                         "Wybierz opcje:");
                 Scanner sc = new Scanner(System.in);
                 option = sc.nextInt();
