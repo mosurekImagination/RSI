@@ -4,6 +4,8 @@
 package tomek;
 import java.util.*;
 
+import static java.lang.Math.round;
+
 /**
  * Implementacja farmera - przyjmuje zadania i rozdziela na workery
  */
@@ -46,8 +48,28 @@ public class FarmerImpl
     public Object compute(tomek.Task t, Object params) throws java.rmi.RemoteException {
         tomek.WorkerThread[] threads = new tomek.WorkerThread[workers.length];
         Vector results = new Vector();
-        int last = ((int[]) params)[1];
-        int first = ((int[]) params)[0];
+
+        if (t instanceof tomek.TaskPrimes || t instanceof PiTask) {
+            results = getResultFromPrimeTask(t, (int[]) params, threads);
+        }
+
+        synchronized (results) {
+            while (results.size() < workers.length) {
+                try {
+                    results.wait();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return results;
+    }
+
+    private Vector getResultFromPrimeTask(tomek.Task t, int[] params, tomek.WorkerThread[] threads) {
+        Vector results = new Vector();
+        int last = params[1];
+        int first = params[0];
         int point = last / workers.length;
         for (int i = 0; i < workers.length; i++) {
             Vector<Integer> vInput = new Vector<>();
@@ -62,17 +84,25 @@ public class FarmerImpl
             );
             threads[i].start();
         }
+        return results;
+    }
 
-        synchronized (results) {
-            while (results.size() < workers.length) {
-                try {
-                    results.wait();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+    private Vector getResultFromSortTask(tomek.Task t, int[] params, tomek.WorkerThread[] threads) {
+        Vector results = new Vector();
+        int point = params.length / workers.length;
+        for (int i = 0; i < workers.length; i++) {
+            Vector<Integer> vInput = new Vector<>();
+            if (i == 0)
+                vInput.add(0);
+            else
+                vInput.add(i * point);
+            vInput.add((i + 1) * point);
+
+            threads[i] = new tomek.WorkerThread(
+                    workers[i], t, vInput, results
+            );
+            threads[i].start();
         }
-
         return results;
     }
 
