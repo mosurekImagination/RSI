@@ -15,9 +15,18 @@ public class FactorialTask implements tomek.Task {
      */
     @Override
     public Object compute(Object args) {
-        int number = ((Vector<Integer>) args).get(0);
-        return computeFactorial(number);
+//       // int number = ((Vector<Integer>) args).get(0);
+//        int number = 5;
+//        return computeFactorial(number);
+
+        Integer number= ((Vector<Integer>) args).get(0);
+        float pi = computeFactorial(number);
+        Vector<Float> piV = new Vector<>();
+        piV.add(pi);
+        return piV;
+
     }
+
 
     /**
      * Funkcja wyliczająca silnię podanej liczby

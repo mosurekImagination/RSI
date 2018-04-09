@@ -71,7 +71,10 @@ public class FarmerImpl
             }
         }
         if (t instanceof FactorialTask) {
-            results.add(workers[0].compute(new tomek.FactorialTask(), ((int[]) params)[0]));
+            Vector<Integer> v = new Vector<>();
+            v.add(((int[]) params)[0]);
+            results = (Vector<Object>)workers[0].compute(new tomek.FactorialTask(), v);
+            return results;
         }
 
         synchronized (results) {
