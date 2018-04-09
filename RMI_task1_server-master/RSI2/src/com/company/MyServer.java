@@ -1,5 +1,8 @@
 package com.company;
 
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.Arrays;
 
 public class MyServer {
@@ -10,6 +13,18 @@ public class MyServer {
                     "//host_address/service_name ");
             return;
         }
+
+        String accFile = System.getProperty("user.dir");
+        String filepath = "file:/"+accFile+"/srv.policy";
+        System.setProperty("java.security.policy", filepath);
+
+        try {
+            Registry reg = LocateRegistry.createRegistry(1099);
+        } catch (RemoteException e1) {
+            System.out.println("Registry already exists");
+            //e1.printStackTrace();
+        }
+
         if(System.getSecurityManager() == null){
             System.setSecurityManager(new SecurityManager());
         }
